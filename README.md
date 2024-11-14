@@ -159,9 +159,9 @@ A potential solution is reducing the number of items by eliminating irrelevant i
 
 #### Summary:
 To summarize, I’d like to better understand:
-- The issues with duplicate users and unusual users patterns (fraud, system errors, etc.).
-- The challenges with item barcode and potential solutions.
-- How best to prioritize item data for performance optimization.
+- The issues with duplicate users and unusual users patterns (fraud, system errors, etc.)
+- The challenges with item barcode and potential solutions
+- How to best prioritize item data for performance optimization
 
 Thanks for your help! Looking forward to your feedback.
 
