@@ -155,7 +155,7 @@ Being able to associate brand names with items is critical for getting actionabl
 #### Scaling Considerations:
 The sample dataset is manageable, but I anticipate performance issues as we move to production, given there averages 6 items per receipt. I’m already using parallel processing and best practices, but there’s inefficient code in identifying relevant columns. 
 
-A potential solution is reducing the number of items by eliminating irrelevant items, like using barcodes, users, and item descriptions. Also, I’ve noticed inconsistent data across items — for example, `itemNumber` is only included for 2% of items. My currently methodology identifies columns that is included in at least 10% of items. This logic is slow and complex - it will not scale well. If you can help me prioritize the most critical columns, we could optimize performance significantly. I’m happy to follow up with a full list of columns for review. 
+A potential solution is reducing the number of items by eliminating irrelevant items, like removing barcodes, users, and item descriptions. Also, I’ve noticed inconsistent data across items — for example, `itemNumber` is only included for 2% of items. My currently methodology identifies columns that is included in at least 10% of items. This logic is slow and complex - it will not scale well. If you can help me prioritize the most critical columns, we could optimize performance significantly. I’m happy to follow up with a full list of columns for review. 
 
 #### Summary:
 To summarize, I’d like to better understand:
