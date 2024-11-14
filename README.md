@@ -139,12 +139,12 @@ Hi,
 
 I hope you’re doing well. I’m reaching out to review the dataset I recently received and address a few questions that came up during my initial pass. I’d appreciate your help in clarifying some of these points or directing me to the right person.
 
-## Key Findings and Questions:
+#### Key Findings and Questions:
 1. **Duplicate Users:** I noticed some users are recorded twice. This an an easy fix on my end, but I’d like to understand why this is happening.
 2. **High Dollar Spend:** Some top users have receipts showing total spends over $20K. Is this a reasonable spend for our users?
 3. **Suspicious Behavior:** One user has submitted over 50 receipts in a few months, with an average spend of $2 per receipt. This seems like system abuse to earn points — does this potentially violate our terms and conditions?
 
-## Data Matching & Barcode Issues:
+#### Data Matching & Barcode Issues:
 While reviewing the datasets, I tried to link receipts to brand data to analyze user purchases. However:
 1. Only 1% of items link to a barcode. Could this be due to the sample of brands? Should I expect better results in production?
 2. 55% of items are missing barcodes, and some have the barcode “4011” — is this a data collection issue?
@@ -152,12 +152,12 @@ While reviewing the datasets, I tried to link receipts to brand data to analyze 
 
 Being able to associate brand names with items is critical for getting actionable insights. Outside of barcodes, do you think `brandCode` or `partnerItemId` could help link items to brands? I don’t have enough context for a decision.
 
-## Scaling Considerations:
+#### Scaling Considerations:
 The sample dataset is manageable, but I anticipate performance issues as we move to production, given there averages 6 items per receipt. I’m already using parallel processing and best practices, but there’s inefficient code in identifying relevant columns. 
 
 A potential solution is reducing the number of items by eliminating irrelevant items, like using barcodes, users, and item descriptions. Also, I’ve noticed inconsistent data across items — for example, `itemNumber` is only included for 2% of items. My currently methodology identifies columns that is included in at least 10% of items. This logic is slow and complex - it will not scale well. If you can help me prioritize the most critical columns, we could optimize performance significantly. I’m happy to follow up with a full list of columns for review. 
 
-## Summary:
+#### Summary:
 To summarize, I’d like to better understand:
 - The issues with duplicate users and unusual users patterns (fraud, system errors, etc.).
 - The challenges with item barcode and potential solutions.
