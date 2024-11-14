@@ -97,7 +97,7 @@ last_six_month_users = (
 To identify data quality issues, I took two approaches: **bottom-up** and **top-down**.
 
 ### Bottom-Up approach  
-For the bottom-up analysis, I looked for issues in the raw data:
+For the bottom-up analysis, I looked for issues in the raw data like nulls, uniqueness, dupes, and data types:
 
 - **Duplicate barcodes in the brand table**: There are duplicate barcodes in the brand table - this becomes imporant in the top-down analysis.
 - **Duplication in the user table**: Significant number of duplicates were found in the user table.
