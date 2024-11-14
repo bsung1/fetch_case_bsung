@@ -107,10 +107,10 @@ For the bottom-up analysis, I looked for issues in the raw data like nulls, uniq
   We need to create a new **items** table to:
   1. Explode the line items so they can be properly structured.
   2. Bridge the receipt table to the brands table using the barcode (unconclusive).
-- **Unstructured items table**: The items table derived from `rewardsReceiptItemList` is very unstructured. There are a lot of columns with less than a 1% non-null rate. I decided to drop anything with a 10% non-null rate.
+- **Unstructured items table**: The items table derived from `rewardsReceiptItemList` is very unstructured. There are a lot of columns with less than a 1% non-null rate. I decided to drop anything with a 10% non-null rate. This code is inefficient and getting business context as to which columns are relevant can greatly enhance the performance, and reduce complexity. 
 - **Null prices and quantities**: Some prices and item quantities are null, which leads to inaccurate spend calculations.
 - **Discrepancy between `totalSpent` and item spend**: We need to check the `totalSpent` field from receipts against the sum of spend for the items. There is a 64% MAPE, which implies that an assumption I made is wrong. However, this could also be due to other reasons, like missing prices for items, or OCR issues.
-- **Large receipts and suspicious data**: Some receipts are showing totals of $20k+ (when summing the spend for items) and over 600 quantities. These users must either be "Pro" users, committing fraud, or an error with the data system.
+- **Large receipts and suspicious data**: There are a few users that have submitted a significant amount of reciepts in a short timeframe. The top user submitted 50 receipts, averaging $2 a receipt - feels like someone trying to collect points. Some receipts are showing totals of $20k+ (when summing the spend for items) and over 600 quantities. These users must either be "Pro" users, committing fraud, or an error with the data collections system.
 
 ### Top-Down approach  
 For the top-down analysis, I looked at the results of the ER diagram and reviewed the output of the queries:
@@ -128,3 +128,42 @@ For the top-down analysis, I looked at the results of the ER diagram and reviewe
   - Alternatively, we could create an intersection table to resolve the many-to-many relationship.
   
 However, I cannot make a final decision without a larger dataset. This sample might not include the barcodes that actually match the items, so we may need more data to make a proper assessment.
+
+
+---
+
+## Email to business stakeholders (Question 4)
+
+
+Hi,
+
+I hope you’re doing well. I’m reaching out to review the dataset I recently received and address a few questions that came up during my initial pass. I’d appreciate your help in clarifying some of these points or directing me to the right person.
+
+## Key Findings and Questions:
+1. **Duplicate Users:** I noticed some users are recorded twice. This an an easy fix on my end, but I’d like to understand why this is happening.
+2. **High Dollar Spend:** Some top users have receipts showing total spends over $20K. Is this a reasonable spend for our users?
+3. **Suspicious Behavior:** One user has submitted over 50 receipts in a few months, with an average spend of $2 per receipt. This seems like system abuse to earn points — does this potentially violate our terms and conditions?
+
+## Data Matching & Barcode Issues:
+While reviewing the datasets, I tried to link receipts to brand data to analyze user purchases. However:
+1. Only 1% of items link to a barcode. Could this be due to the sample of brands? Should I expect better results in production?
+2. 55% of items are missing barcodes, and some have the barcode “4011” — is this a data collection issue?
+3. I also found duplicate barcodes linked to different brand names. Is this a system error or can a barcode belong to multiple brands?
+
+Being able to associate brand names with items is critical for getting actionable insights. Outside of barcodes, do you think `brandCode` or `partnerItemId` could help link items to brands? I don’t have enough context for a decision.
+
+## Scaling Considerations:
+The sample dataset is manageable, but I anticipate performance issues as we move to production, given there averages 6 items per receipt. I’m already using parallel processing and best practices, but there’s inefficient code in identifying relevant columns. 
+
+A potential solution is reducing the number of items by eliminating irrelevant items, like using barcodes, users, and item descriptions. Also, I’ve noticed inconsistent data across items — for example, `itemNumber` is only included for 2% of items. My currently methodology identifies columns that is included in at least 10% of items. This logic is slow and complex - it will not scale well. If you can help me prioritize the most critical columns, we could optimize performance significantly. I’m happy to follow up with a full list of columns for review. 
+
+## Summary:
+To summarize, I’d like to better understand:
+- The issues with duplicate users and unusual users patterns (fraud, system errors, etc.).
+- The challenges with item barcode and potential solutions.
+- How best to prioritize item data for performance optimization.
+
+Thanks for your help! Looking forward to your feedback.
+
+Best,  
+Brandon
