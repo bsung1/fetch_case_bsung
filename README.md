@@ -5,31 +5,35 @@
 ## SQL  
 This assignment uses PySpark, my preferred language. It has better processing for large datasets and a simpler transition between Python and SQL.
 
+## ER diagram (Question 1)
+Below is the ER diagram for **Question 1**
+![fetch erd](fetch_ERD.png)
+
 ---
 
-## Problems with the Data  
+## Problems with the data (Question 2)
 
 To identify data quality issues, I took two approaches: **bottom-up** and **top-down**.
 
-### Bottom-Up Approach  
+### Bottom-Up approach  
 For the bottom-up analysis, I looked for issues in the raw data:
 
-- **Duplicate Barcodes in the Brand Table**: There are duplicate barcodes in the brand table - this becomes imporant in the top-down analysis.
-- **Duplication in the User Table**: Significant number of duplicates were found in the user table.
-- **Null `lastLogin` for Active Users**: Some users have a `null` value in the `lastLogin` field, even though the user is active.
-- **`rewardsReceiptItemList` Holds an Array**: This field holds an array used to derive the items table.  
+- **Duplicate barcodes in the brand table**: There are duplicate barcodes in the brand table - this becomes imporant in the top-down analysis.
+- **Duplication in the user table**: Significant number of duplicates were found in the user table.
+- **Null `lastLogin` for active users**: Some users have a `null` value in the `lastLogin` field, even though the user is active.
+- **`rewardsReceiptItemList` Holds an array**: This field holds an array used to derive the items table.  
   We need to create a new **items** table to:
   1. Explode the line items so they can be properly structured.
   2. Bridge the receipt table to the brands table using the barcode (unconclusive).
-- **Unstructured Items Table**: The items table derived from `rewardsReceiptItemList` is very unstructured. There are a lot of columns with less than a 1% non-null rate. I decided to drop anything with a 10% non-null rate.
-- **Null Prices and Quantities**: Some prices and item quantities are null, which leads to inaccurate spend calculations.
-- **Discrepancy Between `totalSpent` and Item Spend**: We need to check the `totalSpent` field from receipts against the sum of spend for the items. There is a 64% MAPE, which implies that an assumption I made is wrong. However, this could also be due to other reasons, like missing prices for items, or OCR issues.
-- **Large Receipts and Suspicious Data**: Some receipts are showing totals of $20k+ (when summing the spend for items) and over 600 quantities. These users must either be "Pro" users, committing fraud, or an error with the data system.
+- **Unstructured items table**: The items table derived from `rewardsReceiptItemList` is very unstructured. There are a lot of columns with less than a 1% non-null rate. I decided to drop anything with a 10% non-null rate.
+- **Null prices and quantities**: Some prices and item quantities are null, which leads to inaccurate spend calculations.
+- **Discrepancy between `totalSpent` and item spend**: We need to check the `totalSpent` field from receipts against the sum of spend for the items. There is a 64% MAPE, which implies that an assumption I made is wrong. However, this could also be due to other reasons, like missing prices for items, or OCR issues.
+- **Large receipts and suspicious data**: Some receipts are showing totals of $20k+ (when summing the spend for items) and over 600 quantities. These users must either be "Pro" users, committing fraud, or an error with the data system.
 
-### Top-Down Approach  
+### Top-Down approach  
 For the top-down analysis, I looked at the results of the ER diagram and reviewed the output of the queries:
 
-- **Weak Join Between Items and Brands**:  
+- **Weak join between items and brands**:  
   The join between the items and brands tables using the barcode field is weak:
   - Less than ~1% of items are linked to a brand via barcode.
   - About 55% of barcodes are `NULL`, and over 100 items have the barcode `4011` (items not found).
