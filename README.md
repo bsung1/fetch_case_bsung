@@ -6,6 +6,8 @@
 This assignment uses PySpark, my preferred stack. It has better processing for large datasets and a simpler transition between Python and SQL.
 However for question 2, I also wrote the answers in Spark SQL, to demonstrate my abilities to write SQL.
 
+My work is in the Jupyter Notebook found [here](fetch_assignment.ipynb).
+
 ---
 
 ## ER diagram (Question 1)
@@ -14,7 +16,8 @@ Below is the ER diagram for **Question 1**
 
 ---
 ## Queries to answer business questions (Question 2)
-To answer the questions, I used pyspark - although I provided Spark SQL in the 'fetch_assignment.ipynb' notebook to demonstrate my abilities in SQL. 
+To answer the questions, I used pyspark - although I provided Spark SQL in the [notebook] (fetch_assignment.ipynb)
+to demonstrate my abilities in SQL. 
 
 
 What are the top 5 brands by receipts scanned for most recent month?
