@@ -10,7 +10,7 @@ However for question 2, I also wrote the answers in Spark SQL, to demonstrate my
 
 ## ER diagram (Question 1)
 Below is the ER diagram for **Question 1**
-![fetch erd](fetch_ERD.png)
+![fetch erd](fetch_ERD.jpg)
 
 ---
 ## Queries to answer business questions (Question 2)
